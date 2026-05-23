@@ -47,7 +47,8 @@ html,body{
 .slide{
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
-  padding:40px 24px;
+  padding:clamp(16px,5vw,56px) clamp(16px,5vw,40px);
+  padding-bottom:clamp(64px,10vw,80px);
   opacity:0;
   pointer-events:none;
   transition:opacity 0.7s cubic-bezier(0.4,0,0.2,1),
@@ -72,8 +73,13 @@ html,body{
   max-width:720px;width:100%;
   display:flex;flex-direction:column;
   align-items:flex-start;
-  gap:28px;
+  gap:clamp(14px,3vw,28px);
+  overflow-y:auto;
+  max-height:100%;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
 }
+.slide-inner::-webkit-scrollbar{display:none}
 
 /* =========== BACKGROUND SHAPES =========== */
 .bg-shape{
@@ -113,13 +119,18 @@ html,body{
 /* =========== TAG PILL =========== */
 .tag-pill{
   font-family:var(--f-sans);
-  font-size:0.65rem;letter-spacing:0.2em;
+  font-size:clamp(0.58rem,1.5vw,0.65rem);
+  letter-spacing:0.15em;
   text-transform:uppercase;
   padding:5px 14px;border-radius:999px;
   border:1px solid rgba(255,255,255,0.15);
   color:rgba(255,255,255,0.5);
   background:rgba(255,255,255,0.04);
   backdrop-filter:blur(8px);
+  max-width:100%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .tag-pill.pink  {border-color:rgba(255,107,157,0.4);color:var(--pink)}
 .tag-pill.yellow{border-color:rgba(251,191,36,0.4);color:var(--yellow)}
@@ -140,15 +151,16 @@ html,body{
 }
 
 .big-tw{
-  font-size:clamp(3rem,9vw,7rem);
+  font-size:clamp(2.2rem,9vw,7rem);
   font-weight:900;
   letter-spacing:-0.02em;
+  line-height:1.15;
 }
 
 .med-tw{
-  font-size:clamp(1.3rem,3.5vw,2.2rem);
+  font-size:clamp(1.05rem,3.5vw,2.2rem);
   font-weight:400;
-  line-height:1.6;
+  line-height:1.7;
   max-width:640px;
 }
 
@@ -227,7 +239,7 @@ html,body{
 /* =========== CARDS FLOW =========== */
 .cards-flow{
   display:flex;flex-direction:column;gap:14px;
-  width:100%;max-width:600px;
+  width:100%;max-width:min(600px,100%);
   transition:opacity 0.5s ease,transform 0.5s ease;
 }
 
@@ -276,7 +288,7 @@ html,body{
   background:rgba(255,255,255,0.03);
   border:1px solid rgba(255,255,255,0.07);
   border-radius:16px;
-  padding:clamp(28px,5vw,52px) clamp(24px,6vw,60px);
+  padding:clamp(20px,4vw,52px) clamp(18px,5vw,60px);
   max-width:640px;width:100%;
   position:relative;
 }
@@ -317,15 +329,18 @@ html,body{
 
 .next-btn{
   font-family:var(--f-sans);
-  font-size:0.95rem;font-weight:400;
+  font-size:clamp(0.85rem,2vw,0.95rem);
+  font-weight:400;
   color:var(--ink);
   background:rgba(255,255,255,0.06);
   border:1px solid rgba(255,255,255,0.15);
   border-radius:999px;
-  padding:11px 28px;
+  padding:clamp(10px,2vw,11px) clamp(20px,5vw,28px);
   cursor:pointer;
   transition:all 0.25s ease;
   letter-spacing:0.05em;
+  min-height:44px;
+  -webkit-tap-highlight-color:transparent;
 }
 
 .next-btn:hover{
@@ -338,7 +353,7 @@ html,body{
 .final-wrap{
   display:flex;flex-direction:column;
   align-items:center;text-align:center;
-  gap:24px;
+  gap:clamp(14px,3vw,24px);
   width:100%;
 }
 
@@ -402,7 +417,7 @@ html,body{
 
 /* =========== DOTS NAV =========== */
 #dots-nav{
-  position:fixed;bottom:28px;left:50%;
+  position:fixed;bottom:clamp(14px,4vw,28px);left:50%;
   transform:translateX(-50%);
   display:flex;gap:10px;z-index:100;
 }
@@ -435,7 +450,41 @@ html,body{
 
 /* =========== MEDIA =========== */
 @media(max-width:600px){
-  .slide-inner{gap:20px}
-  .letter-wrap{padding:28px 20px}
+  .slide-inner{gap:16px}
+  .letter-wrap{padding:24px 18px}
   .cards-flow{gap:10px}
+  .tag-pill{font-size:0.58rem;padding:4px 11px;letter-spacing:0.12em;max-width:100%;white-space:normal;text-align:center}
+  .sub-line{font-size:0.95rem}
+  .funny-box{font-size:0.9rem;padding:12px 14px}
+  .flow-card{padding:13px 15px}
+  .list-flow{gap:14px}
+  .final-hearts{font-size:1.5rem;gap:10px}
+  .final-sub{font-size:0.95rem}
+  .stamp-inner{font-size:1rem;padding:10px 18px}
+  .cursor-blink{font-size:clamp(1.6rem,6vw,3rem)}
+}
+
+/* =========== SAFE AREA (iPhone notch/home bar) =========== */
+#dots-nav{
+  padding-bottom:env(safe-area-inset-bottom, 0px);
+  bottom:max(14px, env(safe-area-inset-bottom, 14px));
+}
+
+/* =========== PREVENT PULL-TO-REFRESH =========== */
+html,body{
+  overscroll-behavior:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* =========== LETTER SLIDE MOBILE =========== */
+@media(max-width:480px){
+  .letter-slide .slide-inner{align-items:flex-start}
+  .letter-wrap{border-radius:12px}
+  .letter-body{gap:14px}
+  .letter-tw{font-size:0.92rem;line-height:1.8}
+  .strip-item{font-size:1.2rem;padding:6px 14px}
+  .list-line{gap:12px}
+  .emoji-big{font-size:1.2rem}
+  .flow-card{font-size:0.92rem;line-height:1.65;padding:12px 14px}
+  .final-hearts{gap:8px;font-size:1.4rem}
 }
