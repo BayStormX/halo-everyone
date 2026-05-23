@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ລາກ່ອນທຸກຄົນ 💔</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;700;900&family=Mitr:wght@300;400;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div id="noise"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- SLIDE CONTAINER -->
+<div id="slides">
+
+  <!-- SLIDE 1 -->
+  <div class="slide active" id="s1">
+    <div class="slide-inner">
+      <div class="tag-pill">มิถุนายน 2568</div>
+      <div class="typewriter-wrap">
+        <span class="tw big-tw" id="tw1" data-text="hallo everyone…"></span>
+        <span class="cursor-blink">|</span>
+      </div>
+      <div class="sub-line hidden" id="sub1">ຍັງມີເລື່ອງເວົ້າພື້ນອີກຫຼາຍເລີຍທີ່ຍັງບໍ່ໄດ້ເວົ້າ555+</div>
+      <div class="btn-row hidden" id="btn1">
+        <button class="next-btn" onclick="nextSlide()">ອ່ານຕໍ່ເລີຍຍ →</button>
+      </div>
+    </div>
+    <div class="bg-shape s1-shape"></div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide" id="s2">
+    <div class="slide-inner">
+      <div class="tag-pill pink">ດົນສ່ຳໃດກະບໍ່ພໍ</div>
+      <div class="typewriter-wrap">
+        <span class="tw med-tw" id="tw2" data-text="ບາງຄົນຮູ້ຈັກກັນແຄ່ປີດຽວ ບາງຄົນສອງປີ ບາງຄົນ6-7ປີ"></span>
+        <span class="cursor-blink">|</span>
+      </div>
+      <div class="sub-line hidden" id="sub2">ຮັກຄືເກົ່າ ນັ່ນລະ </div>
+      <div class="accent-strip hidden" id="strip2">
+        <div class="strip-item" style="--c:#ff6b9d">1 ປີ</div>
+        <div class="strip-item" style="--c:#a78bfa">2 ປີ</div>
+        <div class="strip-item" style="--c:#34d399">6–7 ປີ</div>
+      </div>
+      <div class="btn-row hidden" id="btn2">
+        <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
+      </div>
+    </div>
+    <div class="bg-shape s2-shape"></div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide" id="s3">
+    <div class="slide-inner">
+      <div class="tag-pill yellow">ຄວາມຈິງທີ່ຫນີບໍ່ໄດ້</div>
+      <div class="typewriter-wrap">
+        <span class="tw med-tw" id="tw3" data-text="ເຮົາທຸກຄົນກະຄົງຊິຮູ້ດີ ແຕ່ກະບໍ່ຢາກຈາກຢູ່ດີ"></span>
+        <span class="cursor-blink">|</span>
+      </div>
+      <div class="sub-line hidden" id="sub3">ຊີວິດຈິງມັນບໍ່ມີປຸ່ມ pause ເດະ ໃຜຊິຮູ້ລະ 😭</div>
+      <div class="funny-box hidden" id="funny3">
+        <span>😅</span> ຄືນັ່ງເສັງແລ້ວຢາກໃຫ້ເວລາມັນຢຸດ ແຕ່ກະຄົງຊິເປັນໄປບໍ່ໄດ້ດອກ
+      </div>
+      <div class="btn-row hidden" id="btn3">
+        <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
+      </div>
+    </div>
+    <div class="bg-shape s3-shape"></div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide" id="s4">
+    <div class="slide-inner">
+      <div class="tag-pill blue">ສິ່ງທີ່ຢາກບອກກະຄືໆໆ</div>
+      <div class="cards-flow hidden" id="cards4">
+        <div class="flow-card" style="--c:#ff6b9d;--delay:0s">
+          <span class="card-tw" data-text="ຂອບໃຈທີ່ຮັບເຂົ້າແກ໊ງໃນມື້ນັ້ນ5555+"></span>
+        </div>
+        <div class="flow-card" style="--c:#a78bfa;--delay:0.4s">
+          <span class="card-tw" data-text="ທຸກຄົນເປັນຫມູ່ທີ່ດີ ບໍ່ໄດ້ແຄ່ໂອເຄ"></span>
+        </div>
+        <div class="flow-card" style="--c:#34d399;--delay:0.8s">
+          <span class="card-tw" data-text="ເຮົາທຸກຄົນຈະຄິດຮອດ ສິ່ງທີ່ເຮັດຮ່ວມກັນມາ ຫຼາຍແຮງນັບບໍ່ເບິດ5555+"></span>
+        </div>
+        <div class="flow-card" style="--c:#fbbf24;--delay:1.2s">
+          <span class="card-tw" data-text="ຖ້່າໄດ້ເລີ່ມໃຫມ່ ກະຍັງຊິເລືອກແກ໊ງນີ້ຄືເກົ່າ"></span>
+        </div>
+      </div>
+      <div class="btn-row hidden" id="btn4">
+        <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide" id="s5">
+    <div class="slide-inner">
+      <div class="tag-pill green">ຮາຮາ ເສຍດາຍແຕ່ເວລາໃກ້ຊິເບິດແລ້ວT_T</div>
+      <div class="list-flow hidden" id="list5">
+        <div class="list-line" style="--delay:0s">
+          <span class="emoji-big">🍱</span>
+          <span class="list-tw" data-text="ຈົບແລ້ວກະຢ່າລືມກັນນະ ມີຫຍັງກະທັກຫາໄດ້ຕະຫຼອດ ເບີະ"></span>
+        </div>
+        <div class="list-line" style="--delay:0.5s">
+          <span class="emoji-big">😴</span>
+          <span class="list-tw" data-text="ຂໍໃຫ້ໂຊກດີກັບເສັ້ນທາງທີ່ເລືອກ"></span>
+        </div>
+        <div class="list-line" style="--delay:1s">
+          <span class="emoji-big">📱</span>
+          <span class="list-tw" data-text="ຂອບໃຈສຳຫຼັບທຸກຢ່າງທີ່ຜ່ານມາ"></span>
+        </div>
+        <div class="list-line" style="--delay:1.5s">
+          <span class="emoji-big">😭</span>
+          <span class="list-tw" data-text="ໄວ້ເທື່ອຫນ້າ ຕ້ອງໄດ້ກັບມາລວມໂຕກັນຄືເກົ່າໃຫ້ໄດ້ເດີ"></span>
+        </div>
+      </div>
+      <div class="btn-row hidden" id="btn5">
+        <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
+      </div>
+    </div>
+    <div class="bg-shape s5-shape"></div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide" id="s6">
+    <div class="slide-inner letter-slide">
+      <div class="tag-pill red">ຂໍຝາກຈົດຫມາຍ</div>
+      <div class="letter-wrap">
+        <div class="letter-to">ເຖິງ — ຫມູ່ທຸກຄົນ</div>
+        <div class="letter-body">
+          <p class="letter-tw" id="lp1" data-text="ไม่รู้จะเริ่มยังไงดี เพราะไม่เคยเก่งเรื่องบอกลา"></p>
+          <p class="letter-tw hidden" id="lp2" data-text="ขอบคุณที่ทำให้วันที่น่าเบื่อกลายเป็นวันที่พอทน และวันที่แย่กลายเป็นวันที่ผ่านไปได้"></p>
+          <p class="letter-tw hidden" id="lp3" data-text="เราอาจจะไม่ได้เจอกันบ่อยหลังจากนี้ แต่รู้ว่าถ้าโทรหา มึงจะรับ แค่นั้นก็พอแล้ว"></p>
+          <p class="letter-tw hidden italic" id="lp4" data-text="กูรักพวกมืง ในแบบที่ไม่รู้จะพูดออกมาตรงๆ ก็เลยเขียนลงตรงนี้แทน"></p>
+        </div>
+        <div class="letter-sign hidden" id="lsign">— ຈາກຫມູ່ຄົນນື່ງທີ່ບໍ່ຢາກຈາກ ແຕ່ກະຮູ້ວ່າຕ້ອງໄປ</div>
+      </div>
+      <div class="btn-row hidden" id="btn6">
+        <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: FINAL -->
+  <div class="slide" id="s7">
+    <div class="slide-inner">
+      <div class="final-wrap">
+        <div class="final-hearts" id="fhearts">
+          <span style="--d:0s;--c:#ff6b9d">♡</span>
+          <span style="--d:0.2s;--c:#a78bfa">♡</span>
+          <span style="--d:0.4s;--c:#34d399">♡</span>
+          <span style="--d:0.6s;--c:#fbbf24">♡</span>
+          <span style="--d:0.8s;--c:#60a5fa">♡</span>
+        </div>
+        <div class="typewriter-wrap">
+          <span class="tw big-tw final-tw" id="tw7" data-text="ຂໍໃຫ້ໂໍຊກດີທຸກຄົນນ ບ໊າຍຍ"></span>
+          <span class="cursor-blink">|</span>
+        </div>
+        <div class="final-sub hidden" id="fsub">ທາງຂ້າງຫນ້າອາດຊິຍາກກວ່າຕອນນີ້ ແຕ່ກະເຊື່ອວ່າເຮົາຈະຜ່ານໄປໄດ້</div>
+        <div class="final-funny hidden" id="ffunny">
+          (ແລ້ວຢ່າລືມກັນເດີະ… ບໍ່ໍຊັ້ນຊິສົ່ງຮູບຫຼຸດໃຫ້555+)
+        </div>
+        <div class="end-stamp hidden" id="estamp">
+          <div class="stamp-inner">ຮຽນຈົບແລ້ວ ແຕ່ບໍ່ຈາກ 💙</div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-shape s7-shape"></div>
+  </div>
+
+</div><!-- /slides -->
+
+<!-- PROGRESS DOTS -->
+<div id="dots-nav">
+  <div class="dot active" onclick="goSlide(0)"></div>
+  <div class="dot" onclick="goSlide(1)"></div>
+  <div class="dot" onclick="goSlide(2)"></div>
+  <div class="dot" onclick="goSlide(3)"></div>
+  <div class="dot" onclick="goSlide(4)"></div>
+  <div class="dot" onclick="goSlide(5)"></div>
+  <div class="dot" onclick="goSlide(6)"></div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div id="pbar"><div id="pbar-fill"></div></div>
+
+<script src="script.js"></script>
+</body>
+</html>
