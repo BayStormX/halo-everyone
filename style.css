@@ -488,3 +488,24 @@ html,body{
   .flow-card{font-size:0.92rem;line-height:1.65;padding:12px 14px}
   .final-hearts{gap:8px;font-size:1.4rem}
 }
+/* =========== TYPEWRITER =========== */
+.typewriter-wrap {
+  display: block;        /* เปลี่ยนจาก flex */
+}
+
+.tw {
+  font-family: var(--f-serif);
+  line-height: 1.3;
+  color: var(--ink);
+  display: inline;       /* เพิ่ม */
+}
+
+.cursor-blink {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 300;
+  color: var(--purple);
+  animation: blink 0.9s step-end infinite;
+  margin-left: 2px;
+  display: inline;       /* เพิ่ม — ให้ไหลตามข้อความ */
+  vertical-align: baseline;
+}
