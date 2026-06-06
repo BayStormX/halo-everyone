@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>ລາກ່ອນທຸກຄົນ 💔</title>
+<title>ລາກ່ອນທຸກຄົນ 💙</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;700;900&family=Mitr:wght@300;400;600&display=swap" rel="stylesheet"/>
@@ -14,13 +14,28 @@
 <div id="noise"></div>
 <canvas id="bg-canvas"></canvas>
 
+<!-- CLOUDS -->
+<div id="clouds-wrap">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+  <div class="cloud cloud-4"></div>
+  <div class="cloud cloud-5"></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lb-img" src="" alt=""/>
+</div>
+
 <!-- SLIDE CONTAINER -->
 <div id="slides">
 
   <!-- SLIDE 1 -->
   <div class="slide active" id="s1">
     <div class="slide-inner">
-      <div class="tag-pill">มิถุนายน 2568</div>
+      <div class="tag-pill">ມິຖຸນາ 2568</div>
       <div class="typewriter-wrap">
         <span class="tw big-tw" id="tw1" data-text="halo everyone…"></span>
         <span class="cursor-blink">|</span>
@@ -33,19 +48,25 @@
     <div class="bg-shape s1-shape"></div>
   </div>
 
-  <!-- SLIDE 2 -->
+  <!-- SLIDE 2 (interactive year select) -->
   <div class="slide" id="s2">
     <div class="slide-inner">
-      <div class="tag-pill pink">ດົນສ່ຳໃດກະບໍ່ພໍ</div>
+      <div class="tag-pill blue">ດົນສ່ຳໃດກະບໍ່ພໍ</div>
       <div class="typewriter-wrap">
-        <span class="tw med-tw" id="tw2" data-text="ບາງຄົນຮູ້ຈັກກັນແຄ່ປີດຽວ ບາງຄົນສອງປີ ບາງຄົນ7ປີ"></span>
+        <span class="tw med-tw" id="tw2" data-text="ຮູ້ຈັກກັນມາດົນສ່ຳໃດ?"></span>
         <span class="cursor-blink">|</span>
       </div>
-      <div class="sub-line hidden" id="sub2">ຮັກຄືເກົ່າ ນັ່ນລະ </div>
-      <div class="accent-strip hidden" id="strip2">
-        <div class="strip-item" style="--c:#ff6b9d">1 ປີ</div>
-        <div class="strip-item" style="--c:#a78bfa">2 ປີ</div>
-        <div class="strip-item" style="--c:#34d399">6–7 ປີ</div>
+      <div class="year-selector hidden" id="yearsel">
+        <div class="year-question">👇 ກົດເລືອກ ແລ້ວເບິ່ງວ່າເຮົາຊິເວົ້າຫຍັງ</div>
+        <div class="year-chips">
+          <div class="year-chip" onclick="selectYear(this,'1 ປີ','ຮັກຄືເກົ່າ ຮູ້ຈັກກັນແຄ່ປີດຽວ ກະຮູ້ສຶກຄືຮູ້ຈັກກັນມາດົນ 🌊')">1 ປີ</div>
+          <div class="year-chip" onclick="selectYear(this,'2 ປີ','2 ປີທີ່ຜ່ານມາ ມັນເຕັມໄປດ້ວຍຄວາມຊົງຈຳ 💙')">2 ປີ</div>
+          <div class="year-chip" onclick="selectYear(this,'3 ປີ','3 ປີ… ເຮົາໄດ້ຜ່ານຫຼາຍເລື່ອງດ້ວຍກັນ ບໍ່ຄິດລືມດອກ 🌀')">3 ປີ</div>
+          <div class="year-chip" onclick="selectYear(this,'4 ປີ','4 ປີ ຄືເກືອບເຄິ່ງໜຶ່ງຂອງ uni ແຫຼ້ ເວລາຂ້ອຍໄວທີ່ສຸດ 🫧')">4 ປີ</div>
+          <div class="year-chip" onclick="selectYear(this,'5 ປີ','5 ປີ! ຖ້ານັ້ນກໍ ຕ້ອງຊິມີຄືນທີ່ຈື່ຈຳບໍ່ໄດ້ເຕັມໆ555 🌊')">5 ປີ</div>
+          <div class="year-chip" onclick="selectYear(this,'6+ ປີ','6 ປີຂຶ້ນໄປ… ເຈົ້າຄືຄົນທີ່ຮູ້ຈັກກັນດົນທີ່ສຸດ')">6+ ປີ</div>
+        </div>
+        <div class="year-result" id="yearResult"></div>
       </div>
       <div class="btn-row hidden" id="btn2">
         <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
@@ -78,17 +99,17 @@
     <div class="slide-inner">
       <div class="tag-pill blue">ສິ່ງທີ່ຢາກບອກກະຄືໆໆ</div>
       <div class="cards-flow hidden" id="cards4">
-        <div class="flow-card" style="--c:#ff6b9d;--delay:0s">
+        <div class="flow-card" style="--c:#38bdf8;--delay:0s">
           <span class="card-tw" data-text="ຂອບໃຈທີ່ຮັບເຂົ້າແກ໊ງໃນມື້ນັ້ນ5555+"></span>
         </div>
-        <div class="flow-card" style="--c:#a78bfa;--delay:0.4s">
+        <div class="flow-card" style="--c:#06b6d4;--delay:0.4s">
           <span class="card-tw" data-text="ທຸກຄົນເປັນຫມູ່ທີ່ດີ ບໍ່ໄດ້ແຄ່ໂອເຄ"></span>
         </div>
-        <div class="flow-card" style="--c:#34d399;--delay:0.8s">
+        <div class="flow-card" style="--c:#7dd3fc;--delay:0.8s">
           <span class="card-tw" data-text="ເຮົາທຸກຄົນຈະຄິດຮອດ ສິ່ງທີ່ເຮັດຮ່ວມກັນມາ ຫຼາຍແຮງນັບບໍ່ເບິດ5555+"></span>
         </div>
-        <div class="flow-card" style="--c:#fbbf24;--delay:1.2s">
-          <span class="card-tw" data-text="ຖ້່າໄດ້ເລີ່ມໃຫມ່ ກະຍັງຊິເລືອກແກ໊ງນີ້ຄືເກົ່າ"></span>
+        <div class="flow-card" style="--c:#bae6fd;--delay:1.2s">
+          <span class="card-tw" data-text="ຖ້້າໄດ້ເລີ່ມໃຫມ່ ກະຍັງຊິເລືອກແກ໊ງນີ້ຄືເກົ່າ"></span>
         </div>
       </div>
       <div class="btn-row hidden" id="btn4">
@@ -97,14 +118,56 @@
     </div>
   </div>
 
-  <!-- SLIDE 5 -->
+  <!-- SLIDE 5: GALLERY (ໃສ່ຮູບທີ່ນີ້!) -->
   <div class="slide" id="s5">
     <div class="slide-inner">
+      <div class="tag-pill green">📸 ຄວາມຊົງຈຳດ້ວຍກັນ</div>
+      <div class="gallery-caption">ກົດເບິ່ງຮູບແມະ ຖ້າບໍ່ມີຮູບໃຜກະຂໍໂທດນຳ😅</div>
+      <div class="gallery-grid hidden" id="gallery5">
+        <!-- 📸 ວາງ URL ຮູບໃນ src="..." ໄດ້ເລີຍ -->
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/ko3hqKD.jpeg" alt="1" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 1</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/1JYi6Et.jpeg" alt="2" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 2</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/JK822Au.jpeg" alt="3" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 3</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/xl4gOK9.jpeg" alt="4" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 4</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/FLoFzsW.jpeg" alt="5" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 5</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/O1LdqxA.jpeg" alt="6" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 6</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/gJpD24X.jpeg" alt="7" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 7</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/N0YsKxW.jpeg" alt="8" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 8</div></div>'"/>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/K4y0Jgy.jpeg" alt="9" onerror="this.parentNode.innerHTML='<div class=ph><div class=ph-emoji>📷</div><div>ຮູບທີ 9</div></div>'"/>
+        </div>
+      </div>
+      <div class="btn-row hidden" id="btn5">
+        <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
+      </div>
+    </div>
+    <div class="bg-shape s5-shape"></div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide" id="s6">
+    <div class="slide-inner">
       <div class="tag-pill green">ຮາຮາ ເສຍດາຍແຕ່ເວລາໃກ້ຊິເບິດແລ້ວT_T</div>
-      <div class="list-flow hidden" id="list5">
+      <div class="list-flow hidden" id="list6">
         <div class="list-line" style="--delay:0s">
-          <span class="emoji-big">🍱</span>
-          <span class="list-tw" data-text="ຈົບແລ້ວກະຢ່າລືມກັນນະ ມີຫຍັງກະທັກຫາໄດ້ຕະຫຼອດ ເບີະ"></span>
+          <span class="emoji-big">🌊</span>
+          <span class="list-tw" data-text="ຈົບແລ້ວກະຢ່າລືມກັນນະ ມີຫຍັງກະທັກຫາໄດ້ຕະຫຼອດ"></span>
         </div>
         <div class="list-line" style="--delay:0.5s">
           <span class="emoji-big">😴</span>
@@ -119,15 +182,15 @@
           <span class="list-tw" data-text="ໄວ້ເທື່ອຫນ້າ ຕ້ອງໄດ້ກັບມາລວມໂຕກັນຄືເກົ່າໃຫ້ໄດ້ເດີ"></span>
         </div>
       </div>
-      <div class="btn-row hidden" id="btn5">
+      <div class="btn-row hidden" id="btn6">
         <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
       </div>
     </div>
     <div class="bg-shape s5-shape"></div>
   </div>
 
-  <!-- SLIDE 6 -->
-  <div class="slide" id="s6">
+  <!-- SLIDE 7 (letter) -->
+  <div class="slide" id="s7">
     <div class="slide-inner letter-slide">
       <div class="tag-pill red">ຂໍຝາກຈົດຫມາຍ</div>
       <div class="letter-wrap">
@@ -140,33 +203,33 @@
         </div>
         <div class="letter-sign hidden" id="lsign">— ຈາກຫມູ່ຄົນນື່ງທີ່ບໍ່ຢາກຈາກ ແຕ່ກະຮູ້ວ່າຕ້ອງໄປ</div>
       </div>
-      <div class="btn-row hidden" id="btn6">
+      <div class="btn-row hidden" id="btn7">
         <button class="next-btn" onclick="nextSlide()">ຕໍ່ໄປ →</button>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 7: FINAL -->
-  <div class="slide" id="s7">
+  <!-- SLIDE 8: FINAL -->
+  <div class="slide" id="s8">
     <div class="slide-inner">
       <div class="final-wrap">
         <div class="final-hearts" id="fhearts">
-          <span style="--d:0s;--c:#ff6b9d">♡</span>
-          <span style="--d:0.2s;--c:#a78bfa">♡</span>
-          <span style="--d:0.4s;--c:#34d399">♡</span>
-          <span style="--d:0.6s;--c:#fbbf24">♡</span>
-          <span style="--d:0.8s;--c:#60a5fa">♡</span>
+          <span style="--d:0s;--c:#38bdf8">♡</span>
+          <span style="--d:0.2s;--c:#06b6d4">♡</span>
+          <span style="--d:0.4s;--c:#7dd3fc">♡</span>
+          <span style="--d:0.6s;--c:#bae6fd">♡</span>
+          <span style="--d:0.8s;--c:#0ea5e9">♡</span>
         </div>
         <div class="typewriter-wrap">
-          <span class="tw big-tw final-tw" id="tw7" data-text="ຂໍໃຫ້ໂຊກດີທຸກຄົນນ ບ໊າຍຍ"></span>
+          <span class="tw big-tw final-tw" id="tw8" data-text="ຂໍໃຫ້ໂຊກດີທຸກຄົນນ ບ໊າຍຍ"></span>
           <span class="cursor-blink">|</span>
         </div>
-        <div class="final-sub hidden" id="fsub">ທາງຂ້າງຫນ້າອາດຊິຍາກກວ່າຕອນນີ້ ແຕ່ກະເຊື່ອວ່າເຮົາຈະຜ່ານໄປໄດ້</div>
+        <div class="final-sub hidden" id="fsub">ທາງຂ້າງຫນ້າອາດຊິຍາກກວ່າຕອນນີ້ ແຕ່ກະເຊື່ອວ່າເຮົາທຸກຄົນຈະຜ່ານໄປໄດ້</div>
         <div class="final-funny hidden" id="ffunny">
-          (ແລ້ວຢ່າລືມກັນເດີະ… ບໍ່ໍຊັ້ນຊິສົ່ງຮູບຫຼຸດໃຫ້555+)
+          (ແລ້ວຢ່າລືມກັນເດີະ… ບໍ່ຊັ້ນຊິສົ່ງຮູບຫຼຸດໃຫ້555+)
         </div>
         <div class="end-stamp hidden" id="estamp">
-          <div class="stamp-inner">ຮຽນຈົບແລ້ວ ແຕ່ບໍ່ຈາກ 💙</div>
+          <div class="stamp-inner">ຢາກຈົບນະ ແຕ່ບໍ່ຢາກຈາກເລີຍTT 💙</div>
         </div>
       </div>
     </div>
@@ -184,6 +247,7 @@
   <div class="dot" onclick="goSlide(4)"></div>
   <div class="dot" onclick="goSlide(5)"></div>
   <div class="dot" onclick="goSlide(6)"></div>
+  <div class="dot" onclick="goSlide(7)"></div>
 </div>
 
 <!-- PROGRESS BAR -->
