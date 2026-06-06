@@ -209,9 +209,9 @@ function endGame(win) {
   show(result);
 
   if (win) {
-    result.innerHTML = '🎉 ເກັ່ງຫຼາຍ! ກົດຄົບ 10 ອັນ!<br><small>ເກ່ງເວີຍຍ 555+</small>';
+    result.innerHTML = '🎉 ເກັ່ງເວີຍຍ555+! ກົດຄົບ 10 ອັນ!<br><small>ເບິດສ່ຳນິລະ 555+</small>';
   } else {
-    result.innerHTML = `😭 ໄດ້ ${score}/10 ອັນ… ຄັ້ງໜ້າສູ້ຕໍ່ !<br><small>ຫຼິ້ນໃໝ່ບໍ?</small>`;
+    result.innerHTML = `😭 ໄດ້ ${score}/10 ອັນ… ຄັ້ງໜ້າເອົາໃຫມ່ !<br><small>ຫຼິ້ນໃໝ່ບໍ?</small>`;
     // ປຸ່ມ retry
     const retry = document.createElement('button');
     retry.className = 'game-start-btn';
