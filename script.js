@@ -1,5 +1,5 @@
 /* ============================================================
-   GOODBYE WEBSITE — script.js  (ocean blue edition)
+   GOODBYE WEBSITE — script.js
    ============================================================ */
 
 /* ---------- BG CANVAS ---------- */
@@ -10,8 +10,7 @@ let W, H;
 const COLORS = ['#0ea5e9','#06b6d4','#38bdf8','#0369a1','#7dd3fc','#22d3ee'];
 
 const orbs = Array.from({length: 7}, (_, i) => ({
-  x: Math.random(),
-  y: Math.random(),
+  x: Math.random(), y: Math.random(),
   r: 200 + Math.random() * 250,
   vx: (Math.random() - 0.5) * 0.0003,
   vy: (Math.random() - 0.5) * 0.0003,
@@ -19,10 +18,7 @@ const orbs = Array.from({length: 7}, (_, i) => ({
   alpha: 0.04 + Math.random() * 0.07
 }));
 
-function resize() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 resize();
 window.addEventListener('resize', resize);
 
@@ -76,6 +72,8 @@ function updateDots(idx) {
 
 function goSlide(idx) {
   if (busy || idx === current) return;
+  // ✅ ຫ້າມຂ້າມ — ຕ້ອງໄປຕາມລຳດັບເທົ່ານັ້ນ
+  if (idx !== current + 1) return;
   busy = true;
   const prev = slides[current];
   prev.classList.add('exit');
@@ -90,24 +88,27 @@ function nextSlide() {
   if (current < slides.length - 1) goSlide(current + 1);
 }
 
-/* ---------- YEAR SELECTOR (SLIDE 2) ---------- */
+/* ---------- BLOCK swipe/keyboard skip ---------- */
+// keyboard: ລົບ arrow key navigation ອອກ ຫ້າມໄປຫຼັງ
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+  // ລົບ arrow key skip ອອກທັງໝົດ
+});
+
+// touch swipe: ປິດໝົດ
+// (ລຶບ touchstart/touchend navigation)
+
+/* ---------- YEAR SELECTOR ---------- */
 let yearChosen = false;
 
 function selectYear(el, label, msg) {
-  if (yearChosen) return;          // กดได้แค่ครั้งเดียว
+  if (yearChosen) return;
   yearChosen = true;
-
-  // mark selected
   el.classList.add('selected');
-
-  // lock all chips
   document.querySelectorAll('.year-chip').forEach(c => c.classList.add('locked'));
-
   const result = document.getElementById('yearResult');
   result.textContent = msg;
   result.classList.add('show');
-
-  // show button after selection
   const btn = document.getElementById('btn2');
   if (btn.classList.contains('hidden')) {
     setTimeout(() => show(btn), 600);
@@ -123,7 +124,6 @@ function openLightbox(item) {
   lbImg.src = img.src;
   lb.classList.add('open');
 }
-
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
 }
@@ -131,11 +131,106 @@ document.getElementById('lightbox').addEventListener('click', function(e) {
   if (e.target === this) closeLightbox();
 });
 
+/* ---------- GAME (SLIDE 8) ---------- */
+let gameInterval = null;
+let gameTimeout  = null;
+let gameRunning  = false;
+let score        = 0;
+let timeLeft     = 10;
+
+function startGame() {
+  const area      = document.getElementById('gameArea');
+  const stats     = document.getElementById('gameStats');
+  const startBtn  = document.getElementById('gameStartBtn');
+  const result    = document.getElementById('gameResult');
+
+  score    = 0;
+  timeLeft = 10;
+  gameRunning = true;
+
+  startBtn.style.display = 'none';
+  result.classList.add('hidden');
+  result.textContent = '';
+  show(stats);
+  document.getElementById('gameScore').textContent = '0';
+  document.getElementById('gameTimer').textContent = '10';
+
+  // spawn hearts
+  area.innerHTML = '';
+  spawnHeart(area);
+
+  // countdown timer
+  gameInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('gameTimer').textContent = timeLeft;
+    if (timeLeft <= 0) endGame(false);
+  }, 1000);
+}
+
+function spawnHeart(area) {
+  if (!gameRunning) return;
+  const btn = document.createElement('button');
+  btn.className = 'heart-btn';
+  btn.textContent = '💙';
+  // ສຸ່ມຕຳແໜ່ງ
+  const maxX = area.offsetWidth  - 64;
+  const maxY = area.offsetHeight - 64;
+  btn.style.left = Math.max(0, Math.random() * maxX) + 'px';
+  btn.style.top  = Math.max(0, Math.random() * maxY) + 'px';
+  btn.onclick = () => {
+    if (!gameRunning) return;
+    score++;
+    document.getElementById('gameScore').textContent = score;
+    btn.classList.add('heart-pop');
+    setTimeout(() => btn.remove(), 300);
+    if (score >= 10) { endGame(true); return; }
+    spawnHeart(area);
+  };
+  area.appendChild(btn);
+  // ຖ້າ 2.5s ບໍ່ກົດ ຍ້າຍໃໝ່
+  setTimeout(() => {
+    if (gameRunning && btn.parentNode) {
+      btn.remove();
+      spawnHeart(area);
+    }
+  }, 2500);
+}
+
+function endGame(win) {
+  gameRunning = false;
+  clearInterval(gameInterval);
+  clearTimeout(gameTimeout);
+
+  const area   = document.getElementById('gameArea');
+  const result = document.getElementById('gameResult');
+  area.innerHTML = '';
+
+  result.classList.remove('hidden');
+  show(result);
+
+  if (win) {
+    result.innerHTML = '🎉 ເກັ່ງຫຼາຍ! ກົດຄົບ 10 ອັນ!<br><small>ເກ່ງເວີຍຍ 555+</small>';
+  } else {
+    result.innerHTML = `😭 ໄດ້ ${score}/10 ອັນ… ຄັ້ງໜ້າສູ້ຕໍ່ !<br><small>ຫຼິ້ນໃໝ່ບໍ?</small>`;
+    // ປຸ່ມ retry
+    const retry = document.createElement('button');
+    retry.className = 'game-start-btn';
+    retry.style.marginTop = '12px';
+    retry.textContent = '🔄 ຫຼິ້ນໃໝ່';
+    retry.onclick = () => {
+      result.classList.add('hidden');
+      document.getElementById('gameStats').classList.add('hidden');
+      startGame();
+    };
+    result.appendChild(retry);
+  }
+  setTimeout(() => show(document.getElementById('btn8')), 800);
+}
+
 /* ---------- SLIDE SCRIPTS ---------- */
 async function playSlide(idx) {
   switch (idx) {
 
-    /* SLIDE 1 */
     case 0: {
       const tw  = document.getElementById('tw1');
       const sub = document.getElementById('sub1');
@@ -146,7 +241,6 @@ async function playSlide(idx) {
       break;
     }
 
-    /* SLIDE 2 — interactive year */
     case 1: {
       yearChosen = false;
       document.querySelectorAll('.year-chip').forEach(c => c.classList.remove('locked','selected'));
@@ -159,7 +253,6 @@ async function playSlide(idx) {
       break;
     }
 
-    /* SLIDE 3 */
     case 2: {
       const tw    = document.getElementById('tw3');
       const sub   = document.getElementById('sub3');
@@ -172,7 +265,6 @@ async function playSlide(idx) {
       break;
     }
 
-    /* SLIDE 4 — cards */
     case 3: {
       const wrap = document.getElementById('cards4');
       const btn  = document.getElementById('btn4');
@@ -189,25 +281,20 @@ async function playSlide(idx) {
       break;
     }
 
-    /* SLIDE 5 — gallery */
     case 4: {
       const grid = document.getElementById('gallery5');
       const btn  = document.getElementById('btn5');
       show(grid);
       await delay(100);
-      // animate items in one by one
       const items = grid.querySelectorAll('.gallery-item');
       items.forEach((item, i) => {
-        setTimeout(() => {
-          item.classList.add('show');
-        }, i * 120);
+        setTimeout(() => item.classList.add('show'), i * 120);
       });
       await delay(items.length * 120 + 400);
       show(btn);
       break;
     }
 
-    /* SLIDE 6 — list */
     case 5: {
       const wrap = document.getElementById('list6');
       const btn  = document.getElementById('btn6');
@@ -224,7 +311,6 @@ async function playSlide(idx) {
       break;
     }
 
-    /* SLIDE 7 — letter */
     case 6: {
       const paras = ['lp1','lp2','lp3','lp4'].map(id => document.getElementById(id));
       const sign  = document.getElementById('lsign');
@@ -239,12 +325,28 @@ async function playSlide(idx) {
       break;
     }
 
-    /* SLIDE 8 — final */
     case 7: {
+      // game slide — reset state
+      gameRunning = false;
+      clearInterval(gameInterval);
+      score = 0; timeLeft = 10;
+      const area    = document.getElementById('gameArea');
+      const stats   = document.getElementById('gameStats');
+      const result  = document.getElementById('gameResult');
+      const btn8    = document.getElementById('btn8');
+      area.innerHTML = '<button class="game-start-btn" id="gameStartBtn" onclick="startGame()">▶ ເລີ່ມເລີຍ!</button>';
+      stats.classList.add('hidden');
+      result.classList.add('hidden');
+      btn8.classList.add('hidden');
+      btn8.classList.remove('show-anim');
+      break;
+    }
+
+    case 8: {
       const tw     = document.getElementById('tw8');
-      const fsub   = document.getElementById('fsub');
-      const ffunny = document.getElementById('ffunny');
-      const estamp = document.getElementById('estamp');
+      const fsub   = document.getElementById('fsub9');
+      const ffunny = document.getElementById('ffunny9');
+      const estamp = document.getElementById('estamp9');
       await delay(400);
       await typeInto(tw, tw.dataset.text, 100);
       await delay(400); show(fsub);
@@ -254,27 +356,6 @@ async function playSlide(idx) {
     }
   }
 }
-
-/* ---------- KEYBOARD & SWIPE ---------- */
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goSlide(Math.max(0, current - 1));
-  if (e.key === 'Escape') closeLightbox();
-});
-
-let touchStartX = 0, touchStartY = 0;
-document.addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-}, {passive:true});
-document.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) {
-    if (dy < 0) nextSlide();
-    else goSlide(Math.max(0, current - 1));
-  }
-}, {passive:true});
 
 /* ---------- HELPERS ---------- */
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }

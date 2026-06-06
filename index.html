@@ -209,8 +209,29 @@
     </div>
   </div>
 
-  <!-- SLIDE 8: FINAL -->
+  <!-- SLIDE 8: GAME -->
   <div class="slide" id="s8">
+    <div class="slide-inner" style="align-items:center;">
+      <div class="tag-pill blue">🎮 ເກມນ້ອຍໆ</div>
+      <div class="game-title" id="gameTitle">ຈັບຫົວໃຈກ່ອນຈາກ!</div>
+      <div class="game-sub" id="gameSub">ກົດຫົວໃຈ 💙 ໃຫ້ຄົບ 10 ອັນ ພາຍໃນ 10 ວິນາທີ</div>
+      <div class="game-area" id="gameArea">
+        <button class="game-start-btn" id="gameStartBtn" onclick="startGame()">▶ ເລີ່ມເລີຍ!</button>
+      </div>
+      <div class="game-stats hidden" id="gameStats">
+        <div class="game-stat">❤️ <span id="gameScore">0</span>/10</div>
+        <div class="game-stat">⏱ <span id="gameTimer">10</span>s</div>
+      </div>
+      <div class="game-result hidden" id="gameResult"></div>
+      <div class="btn-row hidden" id="btn8">
+        <button class="next-btn" onclick="nextSlide()">ໄປຕໍ່ →</button>
+      </div>
+    </div>
+    <div class="bg-shape s2-shape"></div>
+  </div>
+
+  <!-- SLIDE 9: FINAL -->
+  <div class="slide" id="s9">
     <div class="slide-inner">
       <div class="final-wrap">
         <div class="final-hearts" id="fhearts">
@@ -224,11 +245,11 @@
           <span class="tw big-tw final-tw" id="tw8" data-text="ຂໍໃຫ້ໂຊກດີທຸກຄົນນ ບ໊າຍຍ"></span>
           <span class="cursor-blink">|</span>
         </div>
-        <div class="final-sub hidden" id="fsub">ທາງຂ້າງຫນ້າອາດຊິຍາກກວ່າຕອນນີ້ ແຕ່ກະເຊື່ອວ່າເຮົາທຸກຄົນຈະຜ່ານໄປໄດ້</div>
-        <div class="final-funny hidden" id="ffunny">
+        <div class="final-sub hidden" id="fsub9">ທາງຂ້າງຫນ້າອາດຊິຍາກກວ່າຕອນນີ້ ແຕ່ກະເຊື່ອວ່າເຮົາທຸກຄົນຈະຜ່ານໄປໄດ້</div>
+        <div class="final-funny hidden" id="ffunny9">
           (ແລ້ວຢ່າລືມກັນເດີະ… ບໍ່ຊັ້ນຊິສົ່ງຮູບຫຼຸດໃຫ້555+)
         </div>
-        <div class="end-stamp hidden" id="estamp">
+        <div class="end-stamp hidden" id="estamp9">
           <div class="stamp-inner">ຢາກຈົບນະ ແຕ່ບໍ່ຢາກຈາກເລີຍTT 💙</div>
         </div>
       </div>
@@ -240,14 +261,15 @@
 
 <!-- PROGRESS DOTS -->
 <div id="dots-nav">
-  <div class="dot active" onclick="goSlide(0)"></div>
-  <div class="dot" onclick="goSlide(1)"></div>
-  <div class="dot" onclick="goSlide(2)"></div>
-  <div class="dot" onclick="goSlide(3)"></div>
-  <div class="dot" onclick="goSlide(4)"></div>
-  <div class="dot" onclick="goSlide(5)"></div>
-  <div class="dot" onclick="goSlide(6)"></div>
-  <div class="dot" onclick="goSlide(7)"></div>
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
 </div>
 
 <!-- PROGRESS BAR -->
